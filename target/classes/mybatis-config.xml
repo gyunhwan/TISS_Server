@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+ 	<typeAliases>
+ 		<!-- <typeAlias alias="sample" type="com.jh.biz.sample.SampleVO"></typeAlias> -->
+ 		<typeAlias alias="userVO" type="com.lgh.tiss.user.UserVO"/>
+ 		<typeAlias alias="postVO" type="com.lgh.tiss.post.PostVO"/>
+ 		<typeAlias alias="stringDTO" type="com.lgh.tiss.post.StringDTO"/>
+ 	</typeAliases>
+ 	<mappers>
+ 		<!-- <mapper resource="mappings/sample-mapper.xml"></mapper> -->
+ 		<mapper resource="mappings/login-mapping.xml" />
+		<mapper resource="mappings/join-mapping.xml"/>
+		<mapper resource="mappings/post-mapping.xml"/>
+ 	</mappers>
+</configuration>

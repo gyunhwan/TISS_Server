@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.rog/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="postDAO">
+
+	<insert id="insert" parameterType="postVO">
+		INSERT INTO `tiss`.`post`
+		(title,
+		content,
+		userId,
+		date,
+		positionX,
+		positionY
+		)
+		VALUES
+		(#{title},
+		#{content},
+		#{userId},
+		now(),
+		#{positionX},
+		#{positionY}
+		);
+	</insert>
+	<select id="select" parameterType="String" resultType="postVO">
+		SELECT *
+		FROM post
+		WHERE id=#{id}
+	</select>
+	<select id="selectList" parameterType="stringDTO"
+		resultType="postVO">
+		<choose>
+			<when test="keyword==null">
+				<![CDATA[
+				SELECT *,
+				(6371*acos(cos(radians(#{x}))*cos(radians(positionX))*cos(radians(positionY)
+				-radians(#{y}))+sin(radians(#{x}))*sin(radians(positionX)))) AS distance
+				FROM post
+				HAVING
+				distance <= 0.3
+				ORDER BY distance
+				LIMIT 0,300
+				]]>
+			</when>
+			<otherwise>
+				<![CDATA[
+				SELECT *,
+				(6371*acos(cos(radians(#{x}))*cos(radians(positionX))*cos(radians(positionY)
+				-radians(#{y}))+sin(radians(#{x}))*sin(radians(positionX)))) AS distance
+				FROM post
+				WHERE title like CONCAT('%', #{keyword},'%')
+				HAVING
+				distance <= 0.3
+				ORDER BY distance
+				LIMIT 0,300
+				]]>
+			</otherwise>
+		</choose>
+	</select>
+</mapper>
